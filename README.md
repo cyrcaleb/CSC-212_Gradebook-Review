@@ -117,7 +117,7 @@
 >> efficient way. 
 
 
-# instructions to compile our algorithm 
+# Instructions to compile our algorithm 
 
 > **how to input data**
 

@@ -1,5 +1,11 @@
 #include "grades.h"
 #include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <fstream>
+#include <sstream>
+#include <cmath>
 
 Gradebook::Gradebook(std::string classType){
     class_type = classType;
@@ -73,3 +79,175 @@ Gradebook::Gradebook(std::string classType){
             break;
     }
 }
+
+double Gradebook::calculate(std::string filename){
+    //create sum variable
+    double gradeSum;
+
+    //Reading file and putting into 2D vector
+    std::ifstream inFile(filename);
+    std::string line;
+    std::vector<std::vector<double>> subVector;
+    while (std::getline(inFile, line)) {
+        std::vector <double> temp;
+        std::istringstream stream(line);
+        double val;
+        while(stream >> val) {
+            temp.push_back(val);
+        }
+        //std::cout<< temp.size() << std::endl;
+        subVector.push_back(temp);
+    }
+    //std::cout<< subVector.size() << std::endl;
+
+    if (class_type == "Math"){
+            std::vector<double> finalGs;
+            double sum = 0;
+            int count = 0;
+            //get average for each subvector
+            for(int i = 0; i < subVector.size(); i++){
+            for(int j = 0; j < subVector[i].size(); j++){
+                sum += subVector[i][j];
+                count += 1;
+            }
+            finalGs.push_back(sum/count);
+            sum = 0;
+            count = 0;
+            }
+
+            double finalG = 0;
+            //use average and multiply by respective weight to get
+            for (int k = 0; k < finalGs.size(); k++){
+                if(k == 0 || k == 4){
+                    finalG += (finalGs[k] * assignments);
+                }
+                else if (k == 1){
+                    finalG += (finalGs[k] * attendance);
+                }
+                else if (k == 2){
+                    finalG += (finalGs[k] * final_exam);
+                }
+                else if (k == 3){
+                    finalG += (finalGs[k] * midterms);
+                }
+            }
+            return finalG/1.45;
+            //std::cout << finalG/1.45 << std::endl;;
+
+    }
+        else if (class_type == "Science"){
+            std::vector<double> finalGs;
+            double sum = 0;
+            int count = 0;
+            //get average for each subvector
+            for(int i = 0; i < subVector.size(); i++){
+            for(int j = 0; j < subVector[i].size(); j++){
+                sum += subVector[i][j];
+                count += 1;
+            }
+            finalGs.push_back(sum/count);
+            sum = 0;
+            count = 0;
+            }
+
+            double finalG = 0;
+            //use average and multiply by respective weight to get
+            for (int k = 0; k < finalGs.size(); k++){
+                if(k == 0){
+                    finalG += (finalGs[k] * assignments);
+                }
+                else if (k == 1){
+                    finalG += (finalGs[k] * classwork);
+                }
+                else if (k == 2 || k == 3 || k == 4 || k == 6){
+                    finalG += (finalGs[k] * final_exam);
+                }
+                else if (k == 5){
+                    finalG += (finalGs[k] * labs_weight);
+                }
+            }
+
+            return finalG;
+            //std::cout << finalG << std::endl;
+        }
+        else if (class_type == "Computer"){
+            std::vector<double> finalGs;
+            double sum = 0;
+            int count = 0;
+            //get average for each subvector
+            for(int i = 0; i < subVector.size(); i++){
+            for(int j = 0; j < subVector[i].size(); j++){
+                sum += subVector[i][j];
+                count += 1;
+            }
+            finalGs.push_back(sum/count);
+            sum = 0;
+            count = 0;
+            }
+
+            double finalG = 0;
+            //use average and multiply by respective weight to get
+            for (int k = 0; k < finalGs.size(); k++){
+                if(k == 0){
+                    finalG += (finalGs[k] * assignments);
+                }
+                else if (k == 1){
+                    finalG += (finalGs[k] * final_exam);
+                }
+                else if (k == 2){
+                    finalG += (finalGs[k] * final_project);
+                }
+                else if (k == 3){
+                    finalG += (finalGs[k] * labs_weight);
+                }
+                else if (k == 4){
+                    finalG += (finalGs[k] * review_project);
+                }
+                //std::cout << finalG << std::endl;
+            }
+            return finalG;
+            //std::cout << finalG << std::endl;;
+        }
+        if (class_type == "Writing"){
+            std::vector<double> finalGs;
+            double sum = 0;
+            int count = 0;
+            //get average for each subvector
+            for(int i = 0; i < subVector.size(); i++){
+            for(int j = 0; j < subVector[i].size(); j++){
+                sum += subVector[i][j];
+                count += 1;
+            }
+            finalGs.push_back(sum/count);
+            sum = 0;
+            count = 0;
+            }
+
+            double finalG = 0;
+            //use average and multiply by respective weight to get
+            for (int k = 0; k < finalGs.size(); k++){
+                if(k == 0){
+                    finalG += (finalGs[k] * assignments);
+                }
+                else if (k == 1){
+                    finalG += (finalGs[k] * attendance);
+                }
+                else if (k == 2){
+                    finalG += (finalGs[k] * classwork);
+                }
+                else if (k == 3){
+                    finalG += (finalGs[k] * final_paper);
+                }
+                else if (k == 4){
+                    finalG += (finalGs[k] * final_project);
+                }
+                else if (k == 5){
+                    finalG += (finalGs[k] * participation);
+                }
+            }
+            return finalG/1.9;
+            //std::cout << finalG/1.9 << std::endl;;
+        }
+        return -1;
+    }
+
